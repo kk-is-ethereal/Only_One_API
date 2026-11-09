@@ -11,7 +11,7 @@ const responseHeaders = ['content-type', 'content-language', 'retry-after'];
 export async function readBody(req, limit) {
   if (Number(req.headers['content-length']) > limit) {
     req.resume();
-    throw new HttpError(413, '请求体超过大小限制。');
+    throw new HttpError(413, ['请求体超过大小限制。', 'The request body exceeds the size limit.']);
   }
   const chunks = [];
   let size = 0;
@@ -19,7 +19,7 @@ export async function readBody(req, limit) {
     size += chunk.length;
     if (size > limit) {
       req.resume();
-      throw new HttpError(413, '请求体超过大小限制。');
+      throw new HttpError(413, ['请求体超过大小限制。', 'The request body exceeds the size limit.']);
     }
     chunks.push(chunk);
   }
@@ -32,7 +32,7 @@ export async function readJson(req, limit = 128 * 1024) {
     const value = JSON.parse(body.toString('utf8'));
     if (value && typeof value === 'object' && !Array.isArray(value)) return value;
   } catch { /* report the same input error */ }
-  throw new HttpError(400, '请求体须为 JSON 对象。');
+  throw new HttpError(400, ['请求体须为 JSON 对象。', 'The request body must be a JSON object.']);
 }
 
 export function json(res, status, data) {

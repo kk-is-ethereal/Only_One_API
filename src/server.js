@@ -7,7 +7,12 @@ import { authenticate, gateway, json, probeUpstream, readJson } from './gateway.
 import { openStore, token } from './store.js';
 
 const cookieName = 'ooa_session';
-const assetTypes = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/styles.css': ['styles.css', 'text/css'] };
+const assetTypes = {
+  '/': ['index.html', 'text/html'],
+  '/app.js': ['app.js', 'text/javascript'],
+  '/i18n.js': ['i18n.js', 'text/javascript'],
+  '/styles.css': ['styles.css', 'text/css']
+};
 const assets = new Map(Object.entries(assetTypes).map(([route, [file, mime]]) => [route, {
   data: readFileSync(new URL(`../public/${file}`, import.meta.url)), mime
 }]));
@@ -23,7 +28,7 @@ function setCookie(res, value, secure) {
 
 function lookup(store, kind, id) {
   const entry = store.get(kind, id);
-  if (!entry) throw new HttpError(404, '记录不存在。');
+  if (!entry) throw new HttpError(404, ['记录不存在。', 'Record not found.']);
   return entry;
 }
 
@@ -31,23 +36,23 @@ function createAdmin(store, secure) {
   const logins = new Map();
   return async function admin(req, res, url) {
     const { pathname } = url;
-    if (req.method !== 'GET' && req.headers['x-ooa-admin'] !== '1') throw new HttpError(403, '缺少管理请求标头。');
+    if (req.method !== 'GET' && req.headers['x-ooa-admin'] !== '1') throw new HttpError(403, ['缺少管理请求标头。', 'The admin request header is missing.']);
     if (pathname === '/admin/login' && req.method === 'POST') {
       const source = req.socket.remoteAddress;
       const now = Date.now();
       for (const [address, entry] of logins) if (entry.expires <= now) logins.delete(address);
       const entry = logins.get(source) ?? { expires: now + 60000, count: 0 };
-      if (entry.count >= 8 || (logins.size >= 2000 && !logins.has(source))) throw new HttpError(429, '登录尝试过多，请稍后再试。');
+      if (entry.count >= 8 || (logins.size >= 2000 && !logins.has(source))) throw new HttpError(429, ['登录尝试过多，请稍后再试。', 'Too many sign-in attempts. Try again later.']);
       entry.count += 1;
       logins.set(source, entry);
       const { password } = await readJson(req, 4096);
-      if (!store.verifyPassword(password)) throw new HttpError(401, '管理员密码有误。');
+      if (!store.verifyPassword(password)) throw new HttpError(401, ['管理员密码有误。', 'Incorrect admin password.']);
       logins.delete(source);
       setCookie(res, store.session(), secure);
       return json(res, 200, { ok: true });
     }
     const session = sessionCookie(req);
-    if (!store.hasSession(session)) throw new HttpError(401, '请先登录管理台。');
+    if (!store.hasSession(session)) throw new HttpError(401, ['请先登录管理台。', 'Sign in to the console first.']);
     if (pathname === '/admin/logout' && req.method === 'POST') {
       store.removeSession(session);
       setCookie(res, '', secure);
@@ -78,7 +83,7 @@ function createAdmin(store, secure) {
         return json(res, 200, await probeUpstream(store, lookup(store, kind, id), 5000));
       }
     }
-    throw new HttpError(404, '找不到此管理接口。');
+    throw new HttpError(404, ['找不到此管理接口。', 'Admin endpoint not found.']);
   };
 }
 
@@ -129,8 +134,12 @@ export function createGatewayServer(store, { secureCookie = false } = {}) {
       if (!(error instanceof HttpError)) console.error('Gateway internal error:', error.code ?? error.name);
       if (res.headersSent || res.destroyed) return res.destroy();
       req.resume();
+      const english = req.url?.startsWith('/admin/') && req.headers['x-ooa-language'] === 'en';
+      const message = error instanceof HttpError
+        ? (english && error.english ? error.english : error.message)
+        : (english ? 'Internal gateway error.' : '网关内部错误。');
       return json(res, error.status ?? 500, { error: {
-        message: error instanceof HttpError ? error.message : '网关内部错误。',
+        message,
         type: error.code ?? 'internal_error', code: error instanceof HttpError ? error.code : 'internal_error'
       } });
     }

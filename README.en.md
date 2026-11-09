@@ -11,7 +11,7 @@
 
 [Quick start](#quick-start) · [AI providers](#connect-ai-providers) · [HTTP proxy](#proxy-http-services) · [Client examples](#client-examples) · [Failover](#failover) · [Deployment](#deployment-and-maintenance) · [Troubleshooting](#troubleshooting)
 
-Only_One_API is a self-hosted API gateway for OpenAI-compatible providers and general HTTP services. Use its Chinese-language admin console to configure upstreams, rank primary and backup services, and issue a separate API key for each application. The server uses Node.js with built-in SQLite and has zero npm dependencies.
+Only_One_API is a self-hosted API gateway for OpenAI-compatible providers and general HTTP services. Use its bilingual admin console to configure upstreams, rank primary and backup services, and issue a separate API key for each application. The server uses Node.js with built-in SQLite and has zero npm dependencies.
 
 ```mermaid
 flowchart LR
@@ -32,7 +32,7 @@ Download or clone the repository and open a terminal in the project root. Instal
 | Linux | bash or a compatible shell | `node --env-file-if-exists=.env src/server.js` |
 
 1. Keep the server running. On first launch, save the password printed after `Admin password (shown once)`.
-2. Open `http://127.0.0.1:8787` in your browser and sign in with the admin password.
+2. Open `http://127.0.0.1:8787` in your browser and sign in with the admin password. The language menu on the sign-in page and in the console switches between Simplified Chinese and English. Your browser remembers the selection.
 3. Configure **上游服务** (Upstreams), then **路由组** (Route groups), then **API Key**. Use the admin password for the console and an issued key for API calls.
 
 `npm start` runs the same server. If npm cannot locate `node` on Windows, use the direct command above. Press `Ctrl+C` to stop the server. Settings persist under `data/` and are loaded on subsequent starts.
@@ -322,7 +322,7 @@ The dashboard shows request volume, success rate, and failovers over the past 24
 ## Development and tests
 
 ```text
-public/          Chinese-language admin console
+public/          Bilingual admin console
 src/server.js    HTTP server, admin API, and public routes
 src/config.js    Upstream, route group, and API key validation
 src/gateway.js   Probing, forwarding, and failover

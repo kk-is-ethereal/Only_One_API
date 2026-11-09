@@ -32,7 +32,7 @@ flowchart LR
 | Linux | bash 或兼容 Shell | `node --env-file-if-exists=.env src/server.js` |
 
 1. 保持终端运行。首次启动时，终端会输出 `Admin password (shown once)`，请保存密码。
-2. 浏览器打开 `http://127.0.0.1:8787`，使用管理员密码登录。
+2. 浏览器打开 `http://127.0.0.1:8787`，使用管理员密码登录。登录页和管理台右上角可切换简体中文或 English，浏览器会记住选择。
 3. 在 **上游服务 → 路由组 → API Key** 依次配置。管理员密码用于登录管理台，签发的 Key 用于客户端访问 API。
 
 `npm start` 提供同样的启动入口。如果 Windows 上 npm 脚本找不到 `node`，可直接使用表中的命令。按 `Ctrl+C` 停止服务。数据保存在项目下的 `data/`，后续启动会读取已有配置。
