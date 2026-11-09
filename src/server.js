@@ -97,7 +97,7 @@ export function createGatewayServer(store, { secureCookie = false } = {}) {
     res.setHeader('content-security-policy', "default-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
     try {
       if (!req.url?.startsWith('/') || req.url.startsWith('//')) throw new HttpError(400, '无效的请求地址。');
-      const url = new URL(req.url, 'http://only-one-api.local');
+      const url = new URL(req.url, 'https://only-one-api.invalid');
       const { pathname } = url;
       if (pathname.startsWith('/admin/')) return await admin(req, res, url);
       if (req.method === 'GET' && assets.has(pathname)) {

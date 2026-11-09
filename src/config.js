@@ -64,7 +64,10 @@ function base(value) {
   try { url = new URL(input); } catch { throw new HttpError(400, ['请输入有效的上游 URL。', 'Enter a valid upstream URL.']); }
   check(['https:', 'http:'].includes(url.protocol) && !url.username && !url.password && !/[?#]/.test(input),
     ['上游地址须为 HTTP(S)，且不能包含用户信息、查询或片段。', 'The upstream URL must use HTTP or HTTPS and cannot include user info, a query, or a fragment.']);
-  return url.href.replace(/\/+$/, '');
+  const href = url.href;
+  let end = href.length;
+  while (href[end - 1] === '/') end -= 1;
+  return href.slice(0, end);
 }
 
 function compatible(group, upstream) {
