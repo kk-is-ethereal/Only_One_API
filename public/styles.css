@@ -12,3 +12,5 @@ dialog{width:min(720px,calc(100% - 26px));max-height:calc(100dvh - 32px);border:
 
 .login-panel{position:relative}.login-panel .language-select{position:absolute;top:16px;right:20px}.topbar-actions{display:flex;gap:8px;align-items:center;flex:none}select.language-select{width:auto;font-size:12px;padding:6px 8px}.topbar{gap:8px}.topbar>span{min-width:0}
 @media(max-width:620px){.login-panel{padding-top:68px}.topbar>span>[data-i18n],.topbar .crumb{display:none}}
+
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

@@ -13,18 +13,19 @@
   <main id="login" class="login" hidden>
     <section class="login-intro">
       <div class="brand"><span class="brand-icon" aria-hidden="true">↗</span> Only_One_API</div>
-      <div class="login-title"><p class="eyebrow">API GATEWAY</p><h1><span data-i18n="多条线路，"></span><br><span data-i18n="一个 API 入口。"></span></h1><p data-i18n="集中管理模型、上游服务与访问权限。"></p></div>
+      <div class="login-title"><p class="eyebrow">API GATEWAY</p><h1><span data-i18n="多条线路，">多条线路，</span><br><span data-i18n="一个 API 入口。">一个 API 入口。</span></h1><p data-i18n="集中管理模型、上游服务与访问权限。"></p></div>
       <span class="login-tag">● &nbsp; GATEWAY CONTROL PLANE</span>
     </section>
     <section class="login-panel">
-      <select class="language-select" data-language data-i18n-label="界面语言">
+      <label class="visually-hidden" for="login-language" data-i18n="界面语言">界面语言</label>
+      <select id="login-language" class="language-select" data-language>
         <option value="zh-CN" lang="zh-CN">简体中文</option>
         <option value="en" lang="en">English</option>
       </select>
       <form id="login-form" class="login-form">
-        <p class="eyebrow">ADMIN CONSOLE</p><h2 data-i18n="登录管理台"></h2>
+        <p class="eyebrow">ADMIN CONSOLE</p><h2 data-i18n="登录管理台">登录管理台</h2>
         <p class="muted" data-i18n="首次启动时，请在终端查看管理员密码。"></p>
-        <label><span data-i18n="管理员密码"></span><input name="password" type="password" required autocomplete="current-password" data-i18n-placeholder="输入密码"></label>
+        <label for="admin-password"><span data-i18n="管理员密码">管理员密码</span><input id="admin-password" name="password" type="password" required autocomplete="current-password" data-i18n-placeholder="输入密码"></label>
         <button type="submit" class="primary"><span data-i18n="登录"></span><span aria-hidden="true">→</span></button>
         <p id="login-error" class="error" role="alert"></p>
       </form>
@@ -45,7 +46,9 @@
     </aside>
     <main class="workspace">
       <header class="topbar"><span><span data-i18n="网关管理台"></span> <span class="crumb">/</span> <strong id="crumb"></strong></span>
-        <div class="topbar-actions"><select class="language-select" data-language data-i18n-label="界面语言">
+        <div class="topbar-actions">
+          <label class="visually-hidden" for="console-language" data-i18n="界面语言">界面语言</label>
+          <select id="console-language" class="language-select" data-language>
           <option value="zh-CN" lang="zh-CN">简体中文</option>
           <option value="en" lang="en">English</option>
         </select><button data-action="refresh" class="small"><span aria-hidden="true">↻</span><span data-i18n="刷新"></span></button></div>
@@ -54,7 +57,7 @@
     </main>
   </div>
   <dialog id="editor" aria-labelledby="editor-title">
-    <div class="dialog-header"><h2 id="editor-title"></h2><button class="icon" data-action="close" data-i18n-label="关闭">×</button></div>
+    <div class="dialog-header"><h2 id="editor-title">管理记录</h2><button class="icon" data-action="close" data-i18n-label="关闭">×</button></div>
     <form id="editor-form"></form>
   </dialog>
   <div id="toast" role="status" hidden></div>
