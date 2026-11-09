@@ -1,5 +1,6 @@
 <div align="center">
   <h1>Only_One_API</h1>
+  <p><strong>简体中文</strong> · <a href="README.en.md">English</a></p>
   <p><strong>一个地址接入多个 API，按功能发放密钥，按优先级切换上游。</strong></p>
   <p>
     <img alt="Node.js 24+" src="https://img.shields.io/badge/Node.js-24%2B-339933?logo=nodedotjs&logoColor=white">
