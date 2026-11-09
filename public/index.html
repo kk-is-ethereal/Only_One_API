@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Only_One_API 统一 API 网关管理台">
+  <title>Only_One_API · 网关管理台</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main id="login" class="login" hidden>
+    <section class="login-intro">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">↗</span> Only_One_API</div>
+      <div class="login-title"><p class="eyebrow">API GATEWAY</p><h1>多条线路，<br>一个 API 入口。</h1><p>集中管理模型、上游服务与访问权限。</p></div>
+      <span class="login-tag">● &nbsp; GATEWAY CONTROL PLANE</span>
+    </section>
+    <section class="login-panel">
+      <form id="login-form" class="login-form">
+        <p class="eyebrow">ADMIN CONSOLE</p><h2>登录管理台</h2>
+        <p class="muted">首次启动时，请在终端查看管理员密码。</p>
+        <label>管理员密码<input name="password" type="password" required autocomplete="current-password" placeholder="输入密码"></label>
+        <button type="submit" class="primary">登录 <span aria-hidden="true">→</span></button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+  </main>
+  <div id="app" class="shell" hidden>
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">↗</span><div>Only_One_API<small>网关管理台</small></div></div>
+      <nav aria-label="管理导航">
+        <p class="nav-label">工作区</p>
+        <button data-tab="overview"><span aria-hidden="true">◫</span> 总览</button>
+        <button data-tab="upstreams"><span aria-hidden="true">⇄</span> 上游服务</button>
+        <button data-tab="groups"><span aria-hidden="true">⎇</span> 路由组</button>
+        <button data-tab="keys"><span aria-hidden="true">◇</span> API Key</button>
+        <button data-tab="logs"><span aria-hidden="true">▤</span> 调用日志</button>
+      </nav>
+      <div class="sidebar-footer"><div><span class="dot"></span> 控制台已连接</div><button data-action="logout">退出登录</button></div>
+    </aside>
+    <main class="workspace">
+      <header class="topbar"><span>网关管理台 <span class="crumb">/</span> <strong id="crumb">总览</strong></span><button data-action="refresh" class="small">↻ &nbsp;刷新</button></header>
+      <div id="content" class="content"></div>
+    </main>
+  </div>
+  <dialog id="editor" aria-labelledby="editor-title">
+    <div class="dialog-header"><h2 id="editor-title"></h2><button class="icon" data-action="close" aria-label="关闭">×</button></div>
+    <form id="editor-form"></form>
+  </dialog>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>
