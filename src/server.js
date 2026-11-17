@@ -159,10 +159,11 @@ function main() {
   }
   if (reset) return store.close();
   const port = Number(process.env.OOA_PORT || 8787);
-  const host = process.env.OOA_HOST || '127.0.0.1';
+  const host = process.env.OOA_HOST || '0.0.0.0';
   const server = createGatewayServer(store, { secureCookie: process.env.OOA_SECURE_COOKIE === '1' });
   server.listen(port, host, () => console.log(`Only_One_API listening on http://${host.includes(':') ? `[${host}]` : host}:${server.address().port}`));
   for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => server.close(() => store.close()));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main();
+

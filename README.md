@@ -276,7 +276,7 @@ func main() {
 
 | 变量 | 默认值 | 用途 |
 | --- | --- | --- |
-| `OOA_HOST` | `127.0.0.1` | 监听地址 |
+| `OOA_HOST` | `0.0.0.0` | 监听地址（绑定所有网卡） |
 | `OOA_PORT` | `8787` | 监听端口 |
 | `OOA_DATA_DIR` | `./data` | SQLite 和加密密钥所在目录，相对路径以启动目录为基准 |
 | `OOA_ADMIN_PASSWORD` | 随机生成 | 首次启动或执行密码重置时使用，长度 16–256 字符 |
@@ -284,7 +284,7 @@ func main() {
 
 ### HTTPS 与持久化
 
-在 Windows、macOS 或 Linux 上自用时，可直接通过回环地址访问。远程部署时，可将进程继续绑定 `127.0.0.1`，由同一台机器上的 HTTPS 反向代理提供入口，并将 `OOA_SECURE_COOKIE` 设为 `1`。以下配置可放入已有的 Nginx HTTPS `server` 块。[Nginx 代理模块](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
+默认监听 `0.0.0.0:8787`，局域网设备可通过运行机器的实际 IP 访问。远程或公网部署时，请先配置防火墙限制来源，并通过 HTTPS 反向代理提供入口，同时将 `OOA_SECURE_COOKIE` 设为 `1`。如只需本机访问，可将 `OOA_HOST` 改回 `127.0.0.1`。以下配置可放入已有的 Nginx HTTPS `server` 块。[Nginx 代理模块](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 
 ```nginx
 location / {
@@ -335,3 +335,4 @@ node --test
 ```
 
 测试使用临时 SQLite 和监听在回环地址的模拟服务，覆盖顺序切换、模型改写、SSE、HTTP 反代及 Key 权限。运行环境需允许本机回环连接。
+

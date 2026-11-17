@@ -276,7 +276,7 @@ Create `.env` from [`.env.example`](.env.example). Run `Copy-Item .env.example .
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `OOA_HOST` | `127.0.0.1` | Listen address |
+| `OOA_HOST` | `0.0.0.0` | Listen address (all network interfaces) |
 | `OOA_PORT` | `8787` | Listen port |
 | `OOA_DATA_DIR` | `./data` | SQLite and encryption key directory, relative to the working directory |
 | `OOA_ADMIN_PASSWORD` | Randomly generated | Password used during initial setup or reset, 16–256 characters |
@@ -284,7 +284,7 @@ Create `.env` from [`.env.example`](.env.example). Run `Copy-Item .env.example .
 
 ### HTTPS and persistence
 
-For remote access, keep the gateway bound to `127.0.0.1`, use an HTTPS reverse proxy on the same host, and set `OOA_SECURE_COOKIE=1`. The example belongs inside an existing Nginx HTTPS `server` block. [Nginx proxy module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
+The gateway listens on `0.0.0.0:8787` by default, so devices on the LAN can reach it through the host machine's actual IP address. For remote or public deployments, restrict access with a firewall, put the gateway behind an HTTPS reverse proxy, and set `OOA_SECURE_COOKIE=1`. To keep it local-only, set `OOA_HOST=127.0.0.1`. The example belongs inside an existing Nginx HTTPS `server` block. [Nginx proxy module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 
 ```nginx
 location / {
@@ -335,3 +335,4 @@ node --test
 ```
 
 The integration tests use temporary SQLite storage and local mock services to cover ordered failover, model rewriting, SSE, HTTP proxying, and key permissions. The test environment needs loopback networking.
+
